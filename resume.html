@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>김희경 이력서 v7 (7)</title><style>
+  :root {
+    --navy: #1f3864;
+    --blue: #2e5fa3;
+    --name-blue: #1a56db;
+    --orange: #e8590c;
+    --peach: #fce4d3;
+    --peach-line: #f6c6a4;
+    --ink: #3d3d3d;
+    --ink-soft: #595959;
+    --muted: #8a8a8a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    background: #eef0f3;
+    color: var(--ink);
+    font-size: 12.5px;
+    line-height: 1.6;
+    word-break: keep-all;
+  }
+
+  .sheet {
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 2px 24px rgba(0,0,0,.12);
+    padding: 48px 54px 72px;
+    overflow: hidden;
+  }
+
+  /* ── 장식 blob ── */
+  .deco { position: absolute; z-index: 0; pointer-events: none; }
+  .deco-top { top: 0; right: 0; width: 340px; }
+  .deco-bottom { bottom: 0; left: 0; width: 380px; }
+  .content { position: relative; z-index: 1; }
+
+  /* ── 헤더 ── */
+  header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+  .name { font-size: 33px; font-weight: 800; color: var(--name-blue); letter-spacing: -0.5px; line-height: 1.15; }
+  .job-title { font-size: 15px; font-weight: 700; color: var(--orange); margin: 3px 0 14px; }
+  .contacts { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; font-weight: 700; color: var(--navy); align-items: center; }
+  .contacts .ic { width: 12px; height: 12px; fill: var(--orange); vertical-align: -1px; margin-right: 4px; }
+  .contacts a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
+  .photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex-shrink: 0; margin-left: 24px; }
+
+  /* ── 섹션 ── */
+  section { margin-bottom: 26px; }
+  h2 { font-size: 16.5px; font-weight: 800; color: var(--navy); margin-bottom: 12px; letter-spacing: -0.2px; }
+  .intro p { color: var(--ink); }
+  .intro strong { color: var(--ink); font-weight: 800; }
+
+  /* ── 타임라인 (경력·학력) ── */
+  .tl { position: relative; }
+  .tl-item { position: relative; display: flex; gap: 0; padding: 0 0 22px 0; break-inside: avoid; }
+  .tl-item:last-child { padding-bottom: 4px; }
+  .tl-date { width: 148px; flex-shrink: 0; font-size: 12px; font-weight: 800; color: var(--navy); padding-top: 1px; }
+  .tl-rail { width: 26px; flex-shrink: 0; position: relative; }
+  .tl-rail::before { content: ""; position: absolute; left: 4px; top: 14px; bottom: -8px; width: 1.5px; background: var(--navy); opacity: .55; }
+  .tl-item:last-child .tl-rail::before { display: none; }
+  .tl-rail::after { content: ""; position: absolute; left: 0; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy); }
+  .tl-body { flex: 1; min-width: 0; }
+  .tl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .tl-title { font-size: 13.5px; font-weight: 800; color: var(--orange); margin-bottom: 8px; }
+  .tl-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 4px; flex-shrink: 0; }
+  .tl-logo.small { border: 1px solid #eceef2; background: #fff; padding: 4px; }
+  .tl-body ul { list-style: none; }
+  .tl-body ul li { padding-left: 12px; position: relative; color: var(--ink-soft); }
+  .tl-body ul li::before { content: "-"; position: absolute; left: 0; color: var(--ink-soft); }
+  .tl-body > p { color: var(--ink-soft); }
+
+  /* ── 프로젝트 ── */
+  .proj { margin-bottom: 22px; break-inside: avoid; }
+  .proj-title { font-size: 14.5px; font-weight: 700; color: var(--blue); letter-spacing: -0.2px; margin-bottom: 3px; }
+  .proj-date { font-size: 11.5px; font-weight: 600; color: var(--muted); margin-bottom: 7px; display: flex; align-items: center; gap: 5px; }
+  .proj-date .ic { width: 11px; height: 11px; fill: var(--muted); }
+  .proj ul { list-style: none; }
+  .proj > ul > li { padding-left: 13px; position: relative; color: var(--ink-soft); margin-bottom: 1px; }
+  .proj > ul > li::before { content: "•"; position: absolute; left: 2px; color: var(--ink-soft); }
+  .proj ul ul { margin: 1px 0 3px; }
+  .proj ul ul li { padding-left: 12px; position: relative; color: var(--ink-soft); }
+  .proj ul ul li::before { content: "-"; position: absolute; left: 0; }
+  .proj strong, .tl-body strong { color: var(--ink); font-weight: 800; }
+  .lbl { color: var(--ink); font-weight: 800; }
+
+  /* ── 기술스택 ── */
+  .stack h3 { font-size: 13.5px; font-weight: 700; color: var(--orange); margin: 10px 0 5px; }
+  .stack p { color: var(--ink-soft); }
+
+  /* ── 기타 ── */
+  .etc-item { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 9px; }
+  .etc-item .t { font-size: 13px; font-weight: 800; color: var(--blue); }
+  .etc-item .d { font-size: 11.5px; font-weight: 600; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+  .etc-item .d .ic { width: 11px; height: 11px; fill: var(--muted); }
+
+  /* ── 편집 툴바 ── */
+  .toolbar {
+    position: fixed; top: 14px; right: 14px; z-index: 99;
+    display: flex; gap: 8px; align-items: center;
+    background: #fff; border: 1px solid #d9dde3; border-radius: 10px;
+    padding: 8px 10px; box-shadow: 0 4px 16px rgba(0,0,0,.14);
+    font-size: 12.5px;
+  }
+  .toolbar button {
+    font: inherit; font-weight: 700; cursor: pointer;
+    border: 1px solid #c9ced6; border-radius: 7px; background: #f6f7f9; color: var(--navy);
+    padding: 5px 12px;
+  }
+  .toolbar button:hover { background: #eceef2; }
+  .toolbar button.primary { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .toolbar button.primary:hover { filter: brightness(1.06); }
+  .toolbar .state { font-weight: 700; color: var(--muted); padding-right: 2px; }
+  body.editing .toolbar .state { color: var(--orange); }
+  body.editing .content { outline: 2px dashed var(--peach-line); outline-offset: 10px; border-radius: 4px; }
+  body.editing [contenteditable]:hover { background: #fff7f0; }
+  body.editing [contenteditable]:focus { outline: 1.5px solid var(--orange-soft, #ed7d31); outline-offset: 2px; background: #fffdfb; }
+
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .sheet { max-width: none; box-shadow: none; margin: 0; padding: 10mm 13mm 6mm; }
+    .toolbar { display: none !important; }
+    body.editing .content { outline: none; }
+    body.editing [contenteditable]:hover, body.editing [contenteditable]:focus { background: none; outline: none; }
+    h2 { break-after: avoid; }
+    section { margin-bottom: 18px; }
+    .proj { margin-bottom: 16px; }
+    .tl-item { padding-bottom: 16px; }
+    .proj, .tl-item, .etc-item, .stack { break-inside: avoid; }
+    .proj-title { break-after: avoid; }
+    @page { size: A4; margin: 0; }
+  }
+
+
+body{font-size:12.5px;line-height:1.55}
+.sheet{display:flex;flex-direction:column;width:210mm;max-width:210mm;min-height:297mm;margin:20px auto;padding:11mm 13mm 8mm;overflow:visible}
+.content{flex:none}header{margin-bottom:16px}.name{font-size:31px}.job-title{margin-bottom:8px}
+section{margin-bottom:16px}h2{font-size:16px;margin-bottom:9px}
+.tl-date{width:126px;font-size:11.5px}.tl-rail{width:23px}.tl-item{padding-bottom:9px}.tl-item:last-child{padding-bottom:0}
+.tl-title{font-size:12.5px;margin-bottom:3px}.tl-logo{width:27px;height:27px}.tl-head{min-height:29px}.tl-body ul{font-size:12px}
+.proj{margin-bottom:16px}.proj:last-child{margin-bottom:0}.proj-title{font-size:14px;line-height:1.45}.proj-date{margin-bottom:5px}
+.proj ul ul{margin:1px 0 2px}.proj>ul>li{margin-bottom:1px}
+.content>section:last-child{margin-bottom:0}.continuation{display:flex;justify-content:space-between;border-bottom:1px solid #d9dde3;padding-bottom:9px;margin-bottom:17px;color:var(--muted);font-size:11px}
+footer{margin-top:auto;flex-shrink:0;border-top:1px solid #e7eaf0;padding-top:6px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+.stack{margin-bottom:13px}.skill-row{display:grid;grid-template-columns:95px 1fr;gap:8px;margin-bottom:3px}.stack h3{margin:0;font-size:11.5px}.stack p{font-size:11.5px}
+.etc-item{margin-bottom:5px}.etc-item .t{font-size:12px}.etc-item .d{font-size:11px}.etc-item .t>div{font-size:11.5px!important}
+.sheet[data-page="3"] section{margin-bottom:13px}.sheet[data-page="3"] .proj{margin-bottom:13px}
+@media screen and (max-width:820px){.sheet{width:100%;max-width:100%;min-height:0;margin:12px auto;padding:28px 22px}.toolbar{position:static;display:flex;width:max-content;max-width:100%;margin:10px auto}.tl-date{width:105px}.contacts{gap:5px 10px}footer{margin-top:24px}.continuation{gap:14px}.skill-row{grid-template-columns:85px 1fr}}
+@media print{.sheet{width:210mm;max-width:210mm;min-height:297mm;margin:0;padding:11mm 13mm 8mm;box-shadow:none;break-after:page;overflow:visible}.sheet:last-child{break-after:auto}section{margin-bottom:16px}.proj{margin-bottom:16px}.tl-item{padding-bottom:9px}footer{break-inside:avoid}@page{size:A4;margin:0}}
+
+.sheet[data-page="1"] header{margin-bottom:12px}
+.sheet[data-page="1"] section{margin-bottom:12px}
+.sheet[data-page="1"] .tl-item{padding-bottom:6px}
+.sheet[data-page="1"] .tl-item:last-child{padding-bottom:0}
+/* Anchor the page number so flex fragmentation cannot create a footer-only page. */
+@media print, screen and (min-width:821px){
+  .sheet{height:296.9mm;min-height:296.9mm;display:block}
+  footer{position:absolute;left:13mm;right:13mm;bottom:8mm;margin-top:0}
+}
+
+.publication-nav{width:210mm;max-width:100%;margin:0 auto;padding:12px 20px;display:flex;justify-content:flex-end}
+.publication-nav a{color:var(--navy);font-size:13px;font-weight:700;text-underline-offset:3px}
+.publication-nav a:focus-visible{outline:2px solid var(--name-blue);outline-offset:4px}
+@media screen and (max-width:820px){.publication-nav{padding:12px 22px}}
+@media print{.publication-nav{display:none}}
+</style><link rel="icon" href="data:,">
+<meta name="description" content="김희경 데이터 엔지니어 이력서. 데이터 플랫폼 구축·운영 경험과 프로젝트 성과.">
+</head><body>
+<nav class="publication-nav" aria-label="문서 이동"><a href="index.html">포트폴리오 보기</a></nav><main id="resume"><div class="sheet" data-page="1"><div class="content"><header>
+      <div>
+        <div class="name">김희경</div>
+        <div class="job-title">데이터 엔지니어</div>
+        <div class="contacts">
+          <span><svg class="ic" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"></path></svg>010-9601-2589</span>
+          <span><svg class="ic" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"></path></svg>hshsnamu@gmail.com<br></span>
+        <span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.4l-9.3 9.3-1.4-1.4L17.6 5H14V3zM5 5h6v2H5v12h12v-6h2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg><a href="https://gimgit.github.io/data-engineering-portfolio/" target="_blank" rel="noopener noreferrer">포트폴리오</a></span></div>
+      </div>
+      
+    </header><section class="intro">
+      <h2>자기소개</h2>
+      <p>CDC·ELT·DW 모델링, BigQuery 거버넌스, K8s, IaC·CI/CD까지 데이터 플랫폼 계층 전반을 다뤄온 데이터 엔지니어입니다. 현재 <b>BigQuery →&nbsp; Iceberg Lakehouse 마이그레이션을</b>&nbsp;구축·검증 중이며,&nbsp;<b>MongoDB → Iceberg CDC landing</b>과 <b>멀티리전 BigQuery IaC</b> 플랫폼을 여러 지역으로 확장할 수 있도록 만들었습니다. 대규모 데이터 이동과 이를 지원하는 플랫폼의&nbsp;<b>정합성과 운영 안정성, 재사용 가능한 기술 기준</b>을 만드는 데 강점이 있습니다.</p>
+    </section><section>
+      <h2>경력</h2>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-date">11/2025 - Present</div>
+          <div class="tl-rail"></div>
+          <div class="tl-body">
+            <div class="tl-head">
+              <div class="tl-title">뤼튼 테크놀로지스 | 데이터 엔지니어</div>
+              <img class="tl-logo" src="data:image/jpeg;base64,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" alt="wrtn"></div><ul>
+              <li>MongoDB→Kafka Connect CDC · 이벤트 실시간 파이프라인 구축·운영 (KR/US, 4개 EKS 클러스터)</li>
+              <li>13개 BigQuery 프로젝트 기반 배치 파이프라인·거버넌스 운영, Terraform IaC·GitHub Actions CI/CD</li>
+              <li>S3/Apache Iceberg Lakehouse 설계·운영, Airflow·dbt 파이프라인 개발</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">07/2024 - 11/2025</div>
+          <div class="tl-rail"></div>
+          <div class="tl-body">
+            <div class="tl-head">
+              <div class="tl-title">컨센트릭스 코리아 | 데이터 플랫폼 엔지니어</div>
+              <img class="tl-logo small" src="data:image/png;base64,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" alt="Concentrix">
+            </div>
+            <ul>
+              <li>SEO 파이프라인 ETL → ELT 전환 — API-credit 비용 약 89% 절감(월 $1,800 → $200)</li>
+              <li>고객사 온프레미스 플랫폼 AWS 마이그레이션 PoC(EMR on EKS, Terraform)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">06/2022 - 07/2024</div>
+          <div class="tl-rail"></div>
+          <div class="tl-body">
+            <div class="tl-head">
+              <div class="tl-title">트릿지 | 데이터 엔지니어</div>
+              <img class="tl-logo" src="data:image/jpeg;base64,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" alt="TRIDGE">
+            </div>
+            <ul>
+              <li>한국·중국 무역 데이터 crawler·ELT 파이프라인 구축·운영, DW/DM 모델링, 데이터 서빙 API</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">02/2019 - 03/2021</div>
+          <div class="tl-rail"></div>
+          <div class="tl-body">
+            <div class="tl-head">
+              <div class="tl-title">부산외국어대학교 | 행정 담당</div></div>
+          </div>
+        </div>
+      </div>
+    </section><section><h2>프로젝트</h2><article class="proj" id="lakehouse"><h3 class="proj-title">S3/Apache Iceberg Lakehouse 구축 | 뤼튼 테크놀로지스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>07/2026 - Present</div><ul><li><span class="lbl">프로젝트 개요</span>: 핵심 채팅·캐릭터 도메인 198개 테이블(약 130억 행·8.2TB)을 BigQuery → S3 + Apache Iceberg Lakehouse 마이그레이션</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>merge → compaction → snapshot expiration → orphan cleanup → S3 noncurrent-version expiration까지 연결한 file lifecycle 설계</li><li>파일 간 key-range overlap depth를 관측해 rewrite 대상을 선별하는 maintenance 규칙 수립. 관측 기능을 Apache Iceberg procedure로 구현해 upstream PR 제출(#17504)</li><li>Spark-on-EKS 애플리케이션별 driver·executor를 같은 AZ에 배치하도록 scheduling을 조정해 cross-AZ shuffle 최소화</li></ul></li><li><span class="lbl">성과</span>: 사용자 bucket 재파티셔닝과 static pruning으로 <strong>대표 대형 테이블의 실행당 merge 비용 약 90% 감소</strong></li><li><span class="lbl">기술</span>: Apache Iceberg, Apache Spark(on EKS), Parquet, AWS(S3, Glue, Athena, EKS), Kafka Connect(CDC), BigQuery, Airflow, Python, SQL</li><li><span class="lbl">기여도</span>: [리드] 아키텍처·운영 기준 수립, 일부 인프라 구현은 팀 내 분담</li></ul></article><article class="proj" id="spark"><h3 class="proj-title">Spark-on-EKS·Karpenter 노드 최적화 | 뤼튼 테크놀로지스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>07/2026</div><ul><li><span class="lbl">프로젝트 개요</span>: Spark 작업의 자원 낭비와 Spot 부족으로 인한 대기를 줄이고, 노드·데이터 전송 비용 절감</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>Karpenter의 잦은 노드 교체 원인을 분석하고, Spark executor의 CPU·메모리 요청량 조정</li><li>고정 EBS 용량에 제한되던 executor 배치 수를 늘리기 위해 NVMe instance-store 노드풀 적용</li><li>executor의 podAffinity를 driver label과 연계해, 애플리케이션별 driver·executor를 동일 AZ에 배치하고 AZ 간 데이터 전송을 억제</li></ul></li><li><span class="lbl">성과</span>: 배포 7일 후 노드당 executor <strong>4개 → 최대 13개</strong>. 여러 자원 최적화 후 <strong>일평균 노드 비용 15.6% 감소</strong></li><li><span class="lbl">기술</span>: AWS EKS, Karpenter, EC2 Spot, Apache Spark, Kubernetes, Terraform, Datadog</li><li><span class="lbl">기여도</span>: [리드] 가설·대조군·사전 검증 기준 설계부터 노드풀·자원 설정 변경과 운영 환경 검증까지 담당</li></ul></article></section></div><footer><span>김희경 · 데이터 엔지니어</span><span>1 / 3</span></footer></div><div class="sheet" data-page="2"><div class="content"><div class="continuation"><span>김희경 · 데이터 엔지니어</span><span>파이프라인 운영·자동화</span></div><section><h2>프로젝트</h2><article class="proj" id="cdc-landing"><h3 class="proj-title">MongoDB → S3/Iceberg CDC landing 구축 | 뤼튼 테크놀로지스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>05/2026 - Present</div><ul><li><span class="lbl">프로젝트 개요</span>: 기존 MongoDB source connector를 활용해 MongoDB → S3/Apache Iceberg <b>CDC landing을 3개 리전에 구축</b></li><li><span class="lbl">주요 수행 내용</span>: <ul><li>Iceberg sink·Glue Catalog/table provisioning·Strimzi/Helm/IaC 배포 경로 연결</li><li>sink commit 주기를 조정해 파일 크기·snapshot 증가 속도를 통제, freshness와 small-file 억제 사이의 기준 수립</li></ul></li><li><span class="lbl">기술</span>: Strimzi Kafka Connect, MSK, Apache Iceberg, AWS Glue, Airflow, Helm, ArgoCD, Terraform, K8s</li><li><span class="lbl">기여도</span>: [리드] sink·catalog·배포·검증 담당 (source connector는 기존 자산 활용)</li></ul></article><article class="proj" id="cdc-monitoring"><h3 class="proj-title">Kafka Connect CDC 모니터링·장애 판단 기준 개선 | 뤼튼 테크놀로지스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>04/2026</div><ul><li><span class="lbl">프로젝트 개요</span>: CDC의 조용한 수집 중단과 정상적인 롤아웃을 구분해, 알람의 정확도와 장애 판단 신뢰도를 높이는 모니터링 개선</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>커넥터 상태값 외에 consumer lag, heartbeat, 마지막 소비 시각을 함께 확인하도록 장애 판단 기준 보완</li><li>Kubernetes의 자동 재시작과 Kafka의 저장된 offset 기반 소비 재개를 고려해, <b>일시적인 중단과 지속적인 수집 지연을 구분</b></li></ul></li><li><span class="lbl">기술</span>: Strimzi Kafka Connect, MSK, BigQuery, Airflow, Datadog, Karpenter, K8s</li><li><span class="lbl">기여도</span>: [핵심 기여] CDC 모니터링 운영, 장애 판단 기준 개선, 모니터링 공백 원인 분석·복구</li></ul><div><font color="#595959"><br></font></div><div><h3 class="proj-title" style="color: rgb(46, 95, 163);">Airflow·dbt 파이프라인 운영 표준화 | 뤼튼 테크놀로지스</h3><div class="proj-date" style="color: rgb(138, 138, 138);"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>11/2025 - Present</div><ul><li style="margin: 0px 0px 1px; padding: 0px 0px 0px 13px; position: relative; color: rgb(89, 89, 89);"><span class="lbl" style="color: rgb(61, 61, 61);">프로젝트 개요</span>: 리전별로 반복되는 DAG 개발·배포를 공통화하고, dbt 모델의 처리 로직과 운영 안정성 개선</li><li style="margin: 0px 0px 1px; padding: 0px 0px 0px 13px; position: relative;"><span class="lbl" style="color: rgb(61, 61, 61);">주요 수행 내용</span><font color="#595959">:</font><ul style=""><li style="color: rgb(89, 89, 89);">YAML 설정으로 CDC landing·merge·cleanup·compaction DAG를 생성하는 <b>Airflow factory</b> 설계</li><li style="color: rgb(89, 89, 89);">Django의 migrations 방식을 참고해, SQL 파일로 변경 내용을 선언하고 GitHub Actions로 적용하는 <b>데이터 마이그레이션 절차 구현</b> — dbt 모델 변경 시 전체 full refresh 대신 필요한 데이터만 보정</li><li style="">dbt 공통 매크로의 시간 단위 조회와 일 단위 파티션 덮어쓰기 범위가 달라 발생하던 <b>데이터 누락 해결</b></li></ul></li><li style="margin: 0px 0px 1px; padding: 0px 0px 0px 13px; position: relative;"><span class="lbl" style="color: rgb(61, 61, 61);">성과</span><font color="#595959">:&nbsp;</font>엔지니어 2명이 Airflow factory를 활용해 타 리전 dev/prod에 DAG 배포 완료, 별도 수동 수정 없이 확장</li><li style="margin: 0px 0px 1px; padding: 0px 0px 0px 13px; position: relative; color: rgb(89, 89, 89);"><span class="lbl" style="color: rgb(61, 61, 61);">기술</span>: Airflow, dbt, Python, SQL, BigQuery, Kubernetes, GitHub Actions</li><li style="margin: 0px 0px 1px; padding: 0px 0px 0px 13px; position: relative; color: rgb(89, 89, 89);"><span class="lbl" style="color: rgb(61, 61, 61);">기여도</span>: [리드] DAG 생성 구조 설계·운영, dbt 데이터 누락 원인 분석·수정, SQL 기반 마이그레이션 절차 구현</li></ul></div></article><article class="proj" id="governance"><h3 class="proj-title">BigQuery 멀티리전 거버넌스 IaC 플랫폼 | 뤼튼 테크놀로지스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>02/2026 - 04/2026</div><ul><li><span class="lbl">프로젝트 개요</span>: 콘솔에서 반복하던 리소스 생성과 권한 설정을 자동화하고 이력을 남기기 위해 BigQuery·GCP 리소스를 Terraform 모듈화</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>3개 리전 × dev/prod × 보안등급(restricted/public) 프로젝트를 <b>단일 코드베이스·GitHub Actions CI/CD로 관리</b></li><li>수동 절차로 수일이 예상되던 신규 JP 환경을 <strong>약 1시간에 배포</strong></li><li>리소스·권한 변경을 코드 리뷰와 CI/CD 배포로 일원화해 변경 내용과 검토 이력 관리</li></ul></li><li><span class="lbl">성과</span>: <strong>데이터팀 4명 전원이 공통 IaC를 사용</strong>하고, 다른 엔지니어가 기존 모듈을 확장해 민감 데이터 제공 기능 추가</li><li><span class="lbl">기술</span>: BigQuery, GCP IAM, Terraform, GitHub Actions, Python</li><li><span class="lbl">기여도</span>: [리드] 모듈 설계 및 KR·JP 리전 배포</li></ul></article></section></div><footer><span>김희경 · 데이터 엔지니어</span><span>2 / 3</span></footer></div><div class="sheet" data-page="3"><div class="content"><div class="continuation"><span>김희경 · 데이터 엔지니어</span><span>데이터 접근제어·분석·마트</span></div><section><h2>프로젝트</h2><article class="proj" id="hitl"><h3 class="proj-title">BigQuery 컬럼 보안 등급 자동화 (HITL) | 뤼튼 테크놀로지스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>02/2026 - 04/2026</div><ul><li><span class="lbl">프로젝트 개요</span>: View 기반 사용자별 컬럼 접근제어를 위한 컬럼 보안 등급 자동 분류 시스템</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>column_security_policy 메타 테이블로 컬럼 단위 tier·관리 책임 표준화</li><li>FastAPI 거버넌스 API·웹페이지 — 내부 LLM 자동 분류 + HITL 검수, tier별 authorized view 자동 생성 프로시저</li></ul></li><li><span class="lbl">성과</span>: LLM 분류 + HITL 검수로 운영하는 체계 정비</li><li><span class="lbl">기술</span>: Python(FastAPI), BigQuery, Pub/Sub, ArgoCD, Helm, K8s, GitHub Actions, Terraform</li><li><span class="lbl">기여도</span>: [핵심 기여] 분류 서비스 개선·CI/CD·K8s 배포·검수 절차 정비</li></ul></article><article class="proj" id="seo"><h3 class="proj-title">SEO 데이터 파이프라인 비용·배포 최적화 | 컨센트릭스</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>09/2024 - 11/2024</div><ul><li><span class="lbl">프로젝트 개요</span>: Automotive SEO API 수집 파이프라인에서 전처리 실패(OOM·누락) 시 유료 API를 다시 호출하던 문제 해결</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>API 호출과 transform 분리 — raw Parquet 우선 적재로 재처리 시 API 재호출 제거(<strong>ETL → ELT</strong>)</li><li>GCP serverless 배포 단위 그룹화·독립 step 병렬화·pre-built 이미지 활용</li><li>차량·keyword 검색량·ranking·competitor·regional report를 만드는 분석가에게 raw·curated dataset 제공</li></ul></li><li><span class="lbl">성과</span>: API-credit 비용 <strong>월 $1,800 → $200(약 89%)</strong>, 배포 시간 <strong>13분 → 6분</strong></li><li><span class="lbl">기술</span>: GCP(Cloud Run Job, Cloud Workflow, Cloud Scheduler, GCS), Parquet, Docker, GitLab CI/CD</li><li><span class="lbl">기여도</span>: [리드] 아키텍처 전환·배포 최적화</li></ul></article><article class="proj" id="trade-mart"><h3 class="proj-title">글로벌 무역 데이터 파이프라인·B2B 데이터마트 | 트릿지</h3><div class="proj-date"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>07/2023 - 06/2024</div><ul><li><span class="lbl">프로젝트 개요</span>: 약 190개국·2,000개 품목 코드·200만 기업을 포괄하는 무역 데이터에서 한국·중국 수출입 데이터 담당 (약 12명 협업 조직)</li><li><span class="lbl">주요 수행 내용</span>: <ul><li>약 20개 crawler·일별 파이프라인 운영 — Slack 장애 알림·관리 앱 재시도, 원천 HTML 변경 복구, Snowflake ELT</li><li>원천별 buyer·supplier·품목·시점·수량·가격 정규화: 공통 식별자 매핑, 복합 거래 키와 최신 값 기준 upsert</li><li>여러 원천을 조인해 거래량과 가격을 함께 조회하는 <strong>B2B 식품 무역 SQL 마트 구축</strong></li></ul></li><li><span class="lbl">성과</span>: 구독형 무역 데이터 상품 출시, 내부 관리자 공유 기준 <strong>해당 상품 매출 전년 대비 약 8배 성장에 기여</strong></li><li><span class="lbl">기술</span>: Snowflake, SQL, Python, Node.js, Django, DW/DM 모델링</li><li><span class="lbl">기여도</span>: [핵심 기여] 한국·중국 데이터 수집·정규화·마트 구현 담당, 의사결정 일부 참여</li></ul></article></section><section class="stack"><h2>기술스택</h2>
+<div class="skill-row"><h3>Strong</h3><p>Python, SQL, Apache Spark, Apache Iceberg, Kafka, MSK, Airflow, BigQuery, Terraform, Kubernetes, Karpenter, Helm, Docker, AWS, GCP, GitHub Actions, Parquet, dbt</p></div>
+<div class="skill-row"><h3>Knowledgeable</h3><p>Snowflake, ArgoCD, Datadog, DuckDB, MySQL, PostgreSQL, Avro, FastAPI, Node.js, Django, DW/DM 모델링</p></div></section><section>
+      <h2>학력</h2>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-date">02/2012 - 02/2019</div>
+          <div class="tl-rail"></div>
+          <div class="tl-body">
+            <div style="font-size:13.5px; font-weight:800; color:var(--navy);">부산외국어대학교&nbsp; <span style="color: var(--orange); font-size: 12.5px;">파이데이아 창의인재학과 (3.76/4.5)</span></div>
+          </div>
+        </div>
+      </div>
+    </section><section>
+      <h2>기타</h2>
+      <div class="etc-item">
+        <div class="t">오픈소스 개선 제안 | Apache Iceberg <a href="https://github.com/apache/iceberg/pull/17504" style="color:var(--navy)">PR #17504</a> <span style="font-weight:400;color:#8a8a8a;font-size:12px;">(PR 제출)</span>
+          <div style="font-weight:400;font-size:12.5px;color:#595959;margin-top:2px;">파일 간 key-range overlap depth 관측 procedure 제안 — 파일 재작성 대상 선별에 활용</div>
+        </div>
+        <div class="d"><svg class="ic" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>08/2026 - Present</div>
+      </div>
+            <div class="etc-item">
+        <div class="t">부트캠프 항해99 | AI 과정</div>
+        <div class="d"><svg class="ic" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>09/2024 - 12/2024</div>
+      </div>
+      <div class="etc-item">
+        <div class="t">부트캠프 항해99 | 백엔드 과정</div>
+        <div class="d"><svg class="ic" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"></path></svg>10/2021 - 02/2022</div></div>
+    </section></div><footer><span>김희경 · 데이터 엔지니어</span><span>3 / 3</span></footer></div></main></body></html>
