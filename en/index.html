@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heekyung Kim | Data Engineering Portfolio</title>
+  <meta name="description" content="Heekyung Kim's data engineering case studies: lakehouse architecture, distributed processing, CDC reliability and infrastructure as code.">
+  <link rel="canonical" href="https://gimgit.github.io/data-engineering-portfolio/en/">
+  <style>
+    :root {
+      --navy: #18345d;
+      --blue: #245ea9;
+      --orange: #e65a16;
+      --peach: #fff0e6;
+      --peach-strong: #f8d5bd;
+      --peach-line: #f4b88f;
+      --ink: #273443;
+      --ink-soft: #526172;
+      --muted: #7d8793;
+      --line: #dfe5ec;
+      --line-strong: #b8c5d4;
+      --soft-blue: #edf3fa;
+      --paper: #fff;
+      --canvas: #eef1f5;
+      --good: #196c56;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body {
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12.1px;
+      line-height: 1.62;
+      word-break: normal;
+    }
+    ::selection { background: #f8c9a9; color: #12294a; }
+    a { color: inherit; text-decoration-color: #9db3cf; text-underline-offset: 2px; }
+
+    .toolbar {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px;
+      border: 1px solid #d6dde6;
+      border-radius: 10px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 8px 24px rgba(27,47,73,.14);
+    }
+    .toolbar button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid #d6dde6;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .toolbar button:hover { border-color: #9db3cf; background: #f7f9fc; }
+    .toolbar button:focus-visible { outline: 3px solid rgba(230,90,22,.28); outline-offset: 2px; }
+    .toolbar button.primary { color: #fff; background: var(--navy); border-color: var(--navy); }
+    .toolbar svg { width: 14px; height: 14px; fill: currentColor; }
+    .toolbar .state { padding: 0 4px; color: var(--muted); font-weight: 750; }
+
+    .page {
+      position: relative;
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto;
+      padding: 14mm 15mm 13mm;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 8px 30px rgba(24,52,93,.14);
+    }
+    .page::before {
+      content: "";
+      position: absolute;
+      width: 100mm;
+      height: 38mm;
+      top: -28mm;
+      right: -18mm;
+      border: 1px solid var(--peach-line);
+      border-radius: 50%;
+      background: var(--peach);
+      transform: rotate(8deg);
+    }
+    .page-content { position: relative; z-index: 1; }
+    body.editing .page-content { outline: 2px dashed var(--peach-line); outline-offset: 7px; }
+    .page-footer {
+      position: absolute;
+      z-index: 2;
+      left: 15mm;
+      right: 15mm;
+      bottom: 6mm;
+      display: flex;
+      justify-content: space-between;
+      color: #98a3af;
+      font-size: 9px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .running-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 9.8px;
+      font-weight: 700;
+    }
+    .running-head strong { color: var(--navy); font-size: 10.4px; }
+
+    .cover {
+      display: flex;
+      flex-direction: column;
+      min-height: 264mm;
+    }
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      color: var(--navy);
+      font-size: 10.5px;
+      font-weight: 750;
+    }
+    .cover-top a { display: block; margin-top: 2px; }
+    .cover-mark {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--peach-line);
+      border-radius: 50%;
+      color: var(--orange);
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -.5px;
+      background: #fffaf7;
+    }
+    .cover-title { margin-top: 35mm; max-width: 630px; }
+    .cover-title h1 {
+      color: var(--navy);
+      font-size: 34px;
+      line-height: 1.2;
+      letter-spacing: -1.2px;
+      font-weight: 900;
+    }
+    .cover-title .role { margin-top: 8px; color: var(--orange); font-size: 15px; font-weight: 850; }
+    .cover-title p { margin-top: 17px; max-width: 650px; color: var(--ink-soft); font-size: 13px; line-height: 1.75; }
+    .cover-title strong { color: var(--ink); font-weight: 850; }
+
+    .case-index { margin-top: 25mm; border-top: 2px solid var(--navy); }
+    .index-row {
+      display: grid;
+      grid-template-columns: 42px 1fr 180px;
+      gap: 12px;
+      align-items: baseline;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .index-num { color: var(--orange); font-weight: 900; font-variant-numeric: tabular-nums; }
+    .index-title { color: var(--navy); font-weight: 850; }
+    .index-outcome { color: var(--muted); font-size: 10.5px; text-align: right; }
+
+    .principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 24px;
+      margin-top: auto;
+      padding-top: 12mm;
+    }
+    .principle { padding-top: 7px; border-top: 1px solid var(--line-strong); }
+    .principle strong { display: block; color: var(--navy); font-size: 10.8px; }
+    .principle span { color: var(--ink-soft); font-size: 10.4px; }
+
+    .case-title { margin-top: 14px; }
+    .case-title h1 { color: var(--navy); font-size: 24px; line-height: 1.25; font-weight: 900; letter-spacing: -.7px; }
+    .case-title .company { color: var(--blue); }
+    .case-meta { display: flex; flex-wrap: wrap; gap: 6px 13px; margin-top: 5px; color: var(--muted); font-size: 10.4px; font-weight: 700; }
+
+    section { margin-top: 16px; }
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 7px;
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.3;
+      font-weight: 880;
+      letter-spacing: -.25px;
+    }
+    h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    h3 { margin: 10px 0 4px; color: var(--orange); font-size: 12.3px; font-weight: 850; }
+    p { color: var(--ink-soft); }
+    strong { color: var(--ink); font-weight: 850; }
+    ul.clean { list-style: none; }
+    ul.clean > li { position: relative; padding-left: 13px; margin-top: 3px; color: var(--ink-soft); }
+    ul.clean > li::before { content: "•"; position: absolute; left: 1px; color: var(--orange); }
+
+    .lead {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 14px;
+      padding: 11px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .lead-label { color: var(--orange); font-weight: 900; }
+    .lead p { font-size: 12.3px; line-height: 1.72; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 18px;
+      align-items: stretch;
+      margin: 10px 0 6px;
+    }
+    .flow.compact { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .node {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 72px;
+      padding: 9px 8px;
+      border: 1px solid #bdcad9;
+      border-radius: 7px;
+      background: #f8fafc;
+      text-align: center;
+      break-inside: avoid;
+    }
+    .node:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 1px;
+      right: -19px;
+      top: 50%;
+      background: #91a5bc;
+    }
+    .node:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      right: -19px;
+      top: calc(50% - 3px);
+      width: 6px;
+      height: 6px;
+      border-top: 1px solid #91a5bc;
+      border-right: 1px solid #91a5bc;
+      transform: rotate(45deg);
+      z-index: 2;
+    }
+    .node strong { color: var(--navy); font-size: 11px; }
+    .node span { margin-top: 2px; color: var(--muted); font-size: 9.4px; line-height: 1.35; }
+    .node.selected { background: var(--soft-blue); border-color: #8aa9cf; }
+    .node.control { background: var(--peach); border-color: var(--peach-line); }
+    .figcaption { margin-top: 4px; color: var(--muted); font-size: 9.6px; text-align: center; }
+
+    .decision-table, .metric-table {
+      width: 100%;
+      margin-top: 7px;
+      border-collapse: collapse;
+      break-inside: avoid;
+      font-size: 10.8px;
+    }
+    .decision-table th, .decision-table td,
+    .metric-table th, .metric-table td {
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      color: var(--ink-soft);
+      text-align: left;
+      vertical-align: top;
+    }
+    .decision-table th, .metric-table th { background: #f5f7fa; color: var(--navy); font-weight: 850; }
+    .decision-table td:first-child, .metric-table td:first-child { color: var(--ink); font-weight: 800; }
+    .decision-table tr.selected td { background: #f1f6fb; }
+
+    .outcome-line {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-top: 8px;
+      border-top: 2px solid var(--navy);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .outcome {
+      padding: 9px 11px;
+      border-right: 1px solid var(--line);
+    }
+    .outcome:last-child { border-right: 0; }
+    .outcome strong { display: block; color: var(--blue); font-size: 14px; line-height: 1.25; }
+    .outcome span { color: var(--muted); font-size: 9.8px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .rule {
+      padding-top: 7px;
+      border-top: 1px solid var(--line-strong);
+      break-inside: avoid;
+    }
+    .rule strong { display: block; color: var(--navy); margin-bottom: 2px; }
+    .rule p { font-size: 10.6px; }
+
+    .callout {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-top: 1px solid var(--peach-line);
+      border-bottom: 1px solid var(--peach-line);
+      background: #fff8f3;
+      color: #6b4b36;
+      break-inside: avoid;
+    }
+    .callout strong { color: #6a3d20; }
+    .callout.good { border-color: #9bcaba; background: #f3faf7; color: #356a59; }
+    .callout.good strong { color: var(--good); }
+
+    .causal {
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr 28px 1fr;
+      align-items: stretch;
+      margin-top: 8px;
+    }
+    .causal-box { padding: 10px; border: 1px solid var(--line-strong); border-radius: 7px; background: #f8fafc; }
+    .causal-box strong { display: block; color: var(--navy); margin-bottom: 3px; }
+    .causal-box p { font-size: 10.5px; }
+    .causal-arrow { display: grid; place-items: center; color: #8da0b7; font-size: 20px; }
+
+    .contract {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 40px 1fr;
+      align-items: center;
+      margin: 8px 0;
+    }
+    .contract-step { min-height: 72px; padding: 9px; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--line); }
+    .contract-step strong { display: block; color: var(--navy); }
+    .contract-step span { color: var(--muted); font-size: 9.8px; }
+    .contract-arrow { height: 1px; background: #91a5bc; position: relative; }
+    .contract-arrow::after { content:""; position:absolute; right:0; top:-3px; width:6px; height:6px; border-top:1px solid #91a5bc; border-right:1px solid #91a5bc; transform:rotate(45deg); }
+
+    .ownership {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10.3px;
+    }
+    .ownership strong { color: var(--ink-soft); }
+    .status-open { color: #875b35; font-weight: 800; }
+
+    /* Mobile stacking must not apply to the 794px-wide A4 print viewport. */
+    @media screen and (max-width: 860px) {
+      body { background: #fff; }
+      .toolbar { position: sticky; top: 0; justify-content: center; border-radius: 0; }
+      .toolbar .state { display: none; }
+      .page { width: 100%; min-height: 0; margin: 0; padding: 28px 22px 48px; box-shadow: none; }
+      .cover { min-height: 0; }
+      .cover-title { margin-top: 72px; }
+      .cover-title h1 { font-size: 30px; }
+      .index-row { grid-template-columns: 34px 1fr; }
+      .index-outcome { grid-column: 2; text-align: left; }
+      .principles, .two-col, .three-col, .outcome-line { grid-template-columns: 1fr; }
+      .flow, .flow.compact { grid-template-columns: 1fr; gap: 10px; }
+      .node:not(:last-child)::after, .node:not(:last-child)::before { display: none; }
+      .lead { grid-template-columns: 1fr; gap: 3px; }
+      .causal { grid-template-columns: 1fr; gap: 8px; }
+      .causal-arrow { transform: rotate(90deg); }
+      .contract { grid-template-columns: 1fr; gap: 8px; }
+      .contract-arrow { width: 1px; height: 18px; margin: 0 auto; }
+      .contract-arrow::after { right: -3px; top: 11px; transform: rotate(135deg); }
+      .outcome { border-right: 0; border-bottom: 1px solid var(--line); }
+      .page-footer { left: 22px; right: 22px; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 11.4px; }
+      .toolbar { display: none !important; }
+      .page {
+        width: 210mm;
+        height: auto;
+        min-height: 297mm;
+        margin: 0;
+        padding: 12mm 14mm 11mm;
+        box-shadow: none;
+        break-after: page;
+      }
+      .page:last-of-type { break-after: auto; }
+      .cover { min-height: 273mm; }
+      body.editing .page-content { outline: none; }
+      /* Keep each column/diagram with its heading in the PDF reading order. */
+      .page-content > *, section > *, .two-col > *, .three-col > *,
+      .principle, .index-row { isolation: isolate; }
+      .page-footer { left: 14mm; right: 14mm; bottom: 5mm; }
+      section { margin-top: 13px; }
+      @page { size: A4; margin: 0; }
+    }
+  /* English edition retains the v2 A4 frame and screen-only mobile rules. */
+    .index-row { grid-template-columns: 30px 1fr 190px; }
+    .case-title h1 { letter-spacing: -.4px; }
+    .case-title .company { white-space: nowrap; }
+    .lead { grid-template-columns: 92px 1fr; }
+    @media screen and (max-width: 860px) {
+      .index-row { grid-template-columns: 30px 1fr; }
+      .lead { grid-template-columns: 1fr; }
+    }
+
+    /* Public document navigation is excluded from printed pages. */
+    .publication-nav {
+      position: sticky; top: 0; z-index: 40; display: flex;
+      flex-wrap: wrap; gap: 8px; align-items: center;
+      width: 210mm; max-width: 100%; margin: 0 auto; padding: 9px 14px;
+      background: #fff; border-bottom: 1px solid var(--line);
+      font-size: 12px; line-height: 1.4;
+    }
+    .publication-nav a { padding: 7px 10px; color: var(--navy); text-decoration: none; border-radius: 4px; }
+    .publication-nav a[aria-current="page"] { background: var(--peach); font-weight: 700; }
+    .publication-nav a:hover { background: #edf3fa; }
+    .publication-nav a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .publication-nav .download { margin-left: auto; border: 1px solid var(--line); }
+    @media print { .publication-nav { display: none !important; } }
+  </style>
+</head>
+<body>
+  <nav class="publication-nav" aria-label="Document navigation">
+    <a href="https://gimgit.github.io/data-engineering-portfolio/en/resume.html">Resume</a>
+    <a href="https://gimgit.github.io/data-engineering-portfolio/en/" aria-current="page">Portfolio</a>
+    <a class="download" href="https://gimgit.github.io/data-engineering-portfolio/en/portfolio.pdf" download="Heekyung_Kim_Portfolio_EN.pdf">Download PDF</a>
+  </nav>
+
+  <main id="portfolio" contenteditable="false">
+<article class="page"><div class="page-content cover">
+<div class="cover-top"><div><strong>Heekyung Kim</strong><a href="mailto:hshsnamu@gmail.com">hshsnamu@gmail.com</a><a href="https://github.com/gimgit">github.com/gimgit</a><a href="https://kr.linkedin.com/in/heekyung-kim-33b329242" aria-label="LinkedIn profile: Heekyung Kim">linkedin.com/in/heekyung-kim-33b329242</a></div><div class="cover-mark" aria-label="Heekyung Kim">HK</div></div>
+<div class="cover-title"><h1>Data platforms and<br>cloud architecture</h1><div class="role">Data Engineering Portfolio</div><p>Selected work addressing cost, data consistency, security and capacity constraints in startup and client environments. Each case connects <strong>measured decisions, explicit failure behavior and reusable infrastructure</strong>, with results, rejected alternatives, ownership boundaries and work still under validation.</p></div>
+<div class="case-index" aria-label="Case study contents">
+<div class="index-row"><div class="index-num">01</div><div class="index-title">CDC / Iceberg lakehouse migration</div><div class="index-outcome">~5B rows / 9TB · MERGE cost -97%</div></div><div class="index-row"><div class="index-num">02</div><div class="index-title">Spark on EKS / Karpenter compute economics</div><div class="index-outcome">Allocatable disk capacity 3.2x</div></div><div class="index-row"><div class="index-num">03</div><div class="index-title">Kafka Connect CDC reliability</div><div class="index-outcome">Up to ~355K rows recovered</div></div><div class="index-row"><div class="index-num">04</div><div class="index-title">Multiregion governance IaC and security</div><div class="index-outcome">13 projects · 4 engineers</div></div><div class="index-row"><div class="index-num">05</div><div class="index-title">Client on-premises-to-EMR on EKS PoC</div><div class="index-outcome">70 resources · 46% cost model</div></div>
+</div>
+<div class="principles">
+<div class="principle"><strong>Measure before spending</strong><span>Define acceptance criteria before incurring cost.</span></div><div class="principle"><strong>Verify data, not status</strong><span>Check commit age and parity, not just RUNNING or lag=0.</span></div><div class="principle"><strong>Fail closed</strong><span>Never let an ambiguous state pass as success.</span></div><div class="principle"><strong>Enable the next operator</strong><span>Turn individual knowledge into IaC, workflows and review rules.</span></div>
+</div></div><div class="page-footer"><span>Heekyung Kim · Portfolio</span><span>1 / 7</span></div></article>
+<article class="page"><div class="page-content">
+<div class="running-head"><strong>Heekyung Kim · Data Platform Engineer</strong><span>Migration · Data Platform</span></div>
+<div class="case-title"><h1>1. CDC / Iceberg lakehouse migration <span class="company">| Wrtn Technologies</span></h1><div class="case-meta"><span>05/2026 - Present</span><span>AWS S3 · EKS · MSK · Glue · Athena</span><span>Technical owner</span></div></div>
+<section><div class="lead"><div class="lead-label">Constraints</div><p>Managed-warehouse CDC apply and query costs grew with data volume. The migration had to preserve the change stream and consistency of ~200 live tables while separating physical storage, query access and lifecycle management. The platform would also take on MERGE and cleanup responsibilities previously handled by the managed engine.</p></div></section><section><h2>Target architecture</h2><div class="flow" role="img" aria-label="MongoDB CDC flows through MSK and Kafka Connect into S3 Iceberg; Spark on EKS maintains the tables, with Athena as a read interface."><div class="node "><strong>MongoDB</strong><span>Operational source</span></div><div class="node selected"><strong>Amazon MSK</strong><span>CDC event backbone</span></div><div class="node selected"><strong>Kafka Connect</strong><span>Iceberg sink · 5m commits</span></div><div class="node control"><strong>S3 · Iceberg · Glue</strong><span>Atomic table state</span></div><div class="node selected"><strong>Spark on EKS</strong><span>MERGE · compaction · lifecycle</span></div></div><p class="figcaption">Athena and warehouse views remain read interfaces; write-path state transitions and costs follow explicit operating rules.</p></section><section><h2>Alternatives and trade-offs</h2><table class="decision-table"><thead><tr><th>Alternative</th><th>Constraint</th><th>Decision</th></tr></thead><tbody><tr><td>GCS-centered design</td><td>Cross-cloud egress undermined the cost model.</td><td>Rejected; moved storage to in-region S3.</td></tr><tr><td>In-house sink</td><td>Weak atomic visibility of table state across writers.</td><td>Selected Apache Iceberg Kafka Connect sink.</td></tr><tr><td>Fixed-lookback MERGE</td><td>Runs exceeding the window could permanently miss late data.</td><td>Snapshot watermarks; explicit failure on expired history.</td></tr><tr class="selected"><td>One restricted store + tiered views</td><td>Separate access tiers and consumer boundaries without physical copies.</td><td>Adopted as the operating standard.</td></tr></tbody></table></section><section><h2>Migration acceptance criteria and results</h2><div class="two-col"><div><h3>GO / NO-GO checks</h3><ul class="clean"><li>Check missing live rows and unapplied deletes separately between source and target.</li><li>Verify snapshot-watermark continuity; fail explicitly if required history has expired.</li><li>Test schema evolution, seeding and backfills in a development canary.</li></ul></div><div><h3>Production results</h3><ul class="clean"><li>Representative historical backfill: ~5 billion rows / 9TB.</li><li>196-table audit: zero missing live rows and zero unapplied deletes.</li><li>Extended the lakehouse pattern to ingestion for eight services.</li></ul></div></div><div class="outcome-line"><div class="outcome"><strong>~5 billion rows · 9TB</strong><span>Representative service: historical backfill</span></div><div class="outcome"><strong>196 tables · 0 / 0</strong><span>Missing live rows / unapplied deletes</span></div></div></section><p class="ownership"><strong>Ownership</strong> · Owned final architecture revisions, operating standards, the representative service cutover and technical GO / NO-GO criteria. The CTO retained business approval. A teammate owned the dbt MERGE path used as the rollback anchor; some infrastructure implementation was delegated to the team.</p></div><div class="page-footer"><span>01 · Lakehouse migration</span><span>2 / 7</span></div></article>
+<article class="page"><div class="page-content">
+<div class="running-head"><strong>Heekyung Kim · Data Platform Engineer</strong><span>Lakehouse Economics · Evidence</span></div>
+<div class="case-title"><h1>1. Making the lakehouse operable</h1><div class="case-meta"><span>Compaction · Watermarks · S3 lifecycle · Query layout</span></div></div>
+<section><h2>Operating invariants</h2><div class="three-col"><div class="rule"><strong>Snapshot watermarks</strong><p>Replaced wall-clock lookback windows with incremental boundaries between the last processed snapshot and the current snapshot.</p></div><div class="rule"><strong>Table-shape rules</strong><p>Used size, change rate and delete locality to choose Copy-on-Write (CoW) or Merge-on-Read (MoR) through first-match rules.</p></div><div class="rule"><strong>Physical deletion</strong><p>Defined one deletion lifecycle: DELETE → compaction → snapshot expiry → S3 noncurrent-version expiry.</p></div></div></section><section><h2>Encoding the CoW / MoR cost trade-off</h2><table class="metric-table"><thead><tr><th>Order</th><th>Condition</th><th>Choice and rationale</th></tr></thead><tbody><tr><td>R0</td><td>Effectively append-only; changes &lt;1%</td><td>CoW: prioritize simpler reads.</td></tr><tr><td>R1</td><td>Table size ≥1TB</td><td>MoR: avoid the absolute cost of full rewrites.</td></tr><tr><td>R2</td><td>Changes ≥10,000 rows/h AND table size ≥10GB</td><td>MoR: avoid write amplification.</td></tr><tr><td>R3</td><td>All remaining tables</td><td>CoW: avoid delete-file read overhead.</td></tr></tbody></table><div class="outcome-line"><div class="outcome"><strong>MERGE cost per run: -97%</strong><span>Large table: delete-locality repartitioning + static pruning</span></div><div class="outcome"><strong>259TiB → 120TiB</strong><span>Snapshot expiry + object lifecycle: primary bucket -54%</span></div></div></section><section><h2>Withdrawing an unsupported measurement</h2><div class="lead"><div class="lead-label">Evidence audit</div><p>Rechecked an earlier claim that row-group tuning had reduced scans from 6TB to 0.5TB against production event logs. Across 46 runs, scans still read 99.5-100% of the table; the row-group change itself saved nothing. Publicly withdrew the claim because a modeled estimate had been labeled as a measurement.</p></div><h3>What the subsequent tests established</h3><ul class="clean"><li>Traced engine source code and found that the runtime filter never reached the row-group residual, exposing an implementation gap.</li><li>Found that literal IN predicates enabled pruning, but lists above 200 values reverted to full scans.</li><li>Measured a production-shaped, 131-file / 3.92GiB slice: scan volume <strong>3,519MB → 892MB (-74.7%)</strong>; wall time <strong>22.7s → 6.7s</strong>.</li></ul><div class="callout"><strong>Scope</strong> · These are measurements from a single-bucket slice. A full-scale -99.9% figure is only an arithmetic estimate and is not presented as an achieved result.</div></section><section><h2>Remaining operational work</h2><div class="two-col"><div class="rule"><strong>Guard scans</strong><p>Evaluating how to remove a target-state guard generating ~332M GET requests/day while preserving correctness.</p></div><div class="rule"><strong>Consumer contracts</strong><p>Excluded retirement of the existing bronze-shaped table from cost-saving options because it would break the consumer data contract.</p></div></div></section></div><div class="page-footer"><span>01 · Lakehouse operations</span><span>3 / 7</span></div></article>
+<article class="page"><div class="page-content">
+<div class="running-head"><strong>Heekyung Kim · Data Platform Engineer</strong><span>Compute · FinOps · Reliability</span></div>
+<div class="case-title"><h1>2. Spark on EKS / Karpenter compute economics <span class="company">| Wrtn Technologies</span></h1><div class="case-meta"><span>08/2026 - Present</span><span>EKS · Karpenter · EC2 Spot · EBS · NVMe</span><span>Sole analyst / technical owner</span></div></div>
+<section><div class="lead"><div class="lead-label">Question</div><p>After stopping a cost leak, the Spark executor fleet still cost ~$830/day, and 81% of large nodes had planned memory utilization below 45%. Was Karpenter the cause, or was workload sizing preventing efficient placement?</p></div></section><section><h2>From symptoms to root cause</h2><div class="causal">
+<div class="causal-box"><strong>Symptoms</strong><p>Oversized 8xl nodes: ~800 launches/day<br>Long-job launch failures: 69-82%<br>92% of executor decommissions truncated</p></div>
+<div class="causal-arrow" aria-hidden="true">→</div>
+<div class="causal-box"><strong>Evidence</strong><p>Heap census: 41 applications<br>Event logs: 775 applications<br>Audit logs, Spot reclamations and live Pod specifications</p></div>
+<div class="causal-arrow" aria-hidden="true">→</div>
+<div class="causal-box"><strong>Root cause</strong><p>100Gi scratch request per Pod<br>493Gi allocatable storage per node<br>Four-Pod cap, regardless of instance size</p></div></div></section><section><h2>Resource-by-resource decisions</h2><table class="decision-table"><thead><tr><th>Resource</th><th>Measurement</th><th>Decision</th></tr></thead><tbody><tr><td>Memory</td><td>Heap p50 of 30GiB reflected delayed GC, not demand. Peak unified-memory usage &lt;2GiB; zero spill and OOMs.</td><td>Delete-merge executor: 32g → 24g.</td></tr><tr><td>CPU</td><td>Changing core requests from 4.0 to 3.5 alone produced no placement gain.</td><td>Adjust memory and cores together by workload.</td></tr><tr class="selected"><td>Ephemeral disk</td><td>Fixed 512GiB EBS volumes exposed 493GiB allocatable, capping all node sizes at four Pods.</td><td>NVMe instance-store pool + EBS fallback.</td></tr><tr><td>Spot capacity</td><td>Unlike the main pool, the long-job pool had no fallback tier.</td><td>Broader instance-family fallback; prevent immediate reclamation after arrival.</td></tr></tbody></table></section><section><h2>Acceptance criteria before spending</h2><div class="two-col"><div><h3>Alternatives rejected through measurement</h3><ul class="clean"><li>1TiB gp3 NodeClass: added storage cost consumed half the gain.</li><li>Exclude 8xl instances: pool weights promoted 12xl instead.</li><li>Change pool weights: collateral impact on other workloads.</li><li>Another dedicated pool: replaced by a simpler tiered design.</li></ul></div><div><h3>Validation of the selected design</h3><ul class="clean"><li>Proved the NVMe allocatable increase with a $0.02 positive-control test.</li><li>Used EBS fallback to cover capacity gaps in two Availability Zones.</li><li>Inspected live resolved configuration to find a missing production overlay hidden by a passing development test.</li></ul></div></div><div class="outcome-line"><div class="outcome"><strong>493 → 1,590GiB</strong><span>Allocatable ephemeral storage: 3.2x; four-Pod cap removed</span></div><div class="outcome"><strong>69-82% → 26% / 2%</strong><span>Long-job launch failures in observed post-fallback windows</span></div></div><div class="callout"><strong>Evidence boundary</strong> · Quantified ~$2.1K/month in sparse-node overpayment, but do not claim realized savings before the day-seven validation gate. The long-job result is limited to relieved capacity starvation and verified fallback behavior; no causal wall-time improvement is claimed.</div></section></div><div class="page-footer"><span>02 · Spark on EKS compute</span><span>4 / 7</span></div></article>
+<article class="page"><div class="page-content">
+<div class="running-head"><strong>Heekyung Kim · Data Platform Engineer</strong><span>Streaming · Incident Response</span></div>
+<div class="case-title"><h1>3. Kafka Connect CDC reliability <span class="company">| Wrtn Technologies</span></h1><div class="case-meta"><span>11/2025 - Present</span><span>Amazon MSK · Strimzi · Kafka Connect · Iceberg</span><span>Root-cause analysis owner</span></div></div>
+<section><div class="lead"><div class="lead-label">Problem</div><p>Data movement could stop even with connector status RUNNING and consumer lag at zero. Control-plane status alone did not establish end-to-end liveness from source to target.</p></div></section><section><h2>Three distinct silent-loss mechanisms</h2><table class="metric-table"><thead><tr><th>Failure class</th><th>Why it went undetected</th><th>Recovery and prevention</th></tr></thead><tbody><tr><td>Source stall</td><td>A two-day gap across 42 tables showed lag=0; discovered five months later.</td><td>Introduced source-target parity and commit-age checks.</td></tr><tr><td>Zombie coordinator</td><td>11 RUNNING connectors missed ~50.7K rows over 16 minutes.</td><td>Iceberg sink runtime upgrade and anti-join recovery.</td></tr><tr><td>Merge-window exclusion</td><td>A downstream window turned a brief stall into permanent loss.</td><td>Bounded backfill and exact reconciliation across 12 tables, up to ~355K rows.</td></tr></tbody></table></section><section><h2>Defining end-to-end health</h2><div class="contract" role="img" aria-label="Verify commit age, then source-target parity, then idempotent recovery."><div class="contract-step"><strong>Commit age</strong><span>Does the latest target commit keep advancing?</span></div><div class="contract-arrow"></div><div class="contract-step"><strong>Source-target parity</strong><span>Check missing rows and unapplied deletes separately, not just row counts.</span></div><div class="contract-arrow"></div><div class="contract-step"><strong>Idempotent recovery</strong><span>Use anti-joins and natural keys to make at-least-once replay safe.</span></div></div><div class="callout good"><strong>Operating rule</strong> · Zero lag can mean zero production. Status is not liveness; recovery is complete only when replay is safe and exact reconciliation passes.</div></section><section><h2>Extending the checks to connector nodes</h2><div class="two-col"><div><h3>Undrainable-node root cause</h3><ul class="clean"><li>A 30-day expiry combined with do-not-disrupt Pods caused persistent drain failure.</li><li>Timestamps ruled out the competing explanation that the annotation arrived too late.</li><li>Applied a development fix: set expiry to Never on the dedicated pool.</li></ul></div><div><h3>Regression prevented through peer review</h3><ul class="clean"><li>Found false positives in a reaper treating two coordinator IDs within 20 minutes as split-brain.</li><li>Proposed a time-overlap discriminator and a leader-preservation rule.</li><li>Blocked automation that would restart the real leader and trigger a rebalance loop.</li></ul></div></div><p class="ownership"><strong>Ownership</strong> · Handled forensic root-cause analysis, prevention and quantified backfill verification for the three incidents. Teammates operated the systems during the incidents. <span class="status-open">The production node-pool change remains open; only the development fix is complete.</span></p></section><section><h2>Separate delivery evidence</h2><p>Built end-to-end CDC ingestion for consent data subject to regulatory requirements. Validated <strong>12M+ document keys</strong> with zero duplicates and zero DLQ entries. Fixed a corruption mechanism that could remain invisible to the DLQ, rejecting the assumption that an empty DLQ proves health.</p></section></div><div class="page-footer"><span>03 · Kafka Connect reliability</span><span>5 / 7</span></div></article>
+<article class="page"><div class="page-content">
+<div class="running-head"><strong>Heekyung Kim · Data Platform Engineer</strong><span>Governance · Security · Enablement</span></div>
+<div class="case-title"><h1>4. Multiregion governance IaC and security <span class="company">| Wrtn Technologies</span></h1><div class="case-meta"><span>01/2026 - Present</span><span>Terraform · GitHub Actions · BigQuery · IAM · Pub/Sub</span><span>Repository creator / technical lead</span></div></div>
+<section><div class="lead"><div class="lead-label">Internal users</div><p>IAM, authorized views and column classification were managed manually across 13 projects, ~314 datasets and ~100 users. The design needed consistent separation by region, environment and access tier, while letting the team extend it safely without depending on the original designer.</p></div></section><section><h2>Separating infrastructure boundaries from policy</h2><div class="flow compact"><div class="node "><strong>Region · Environment</strong><span>Project boundary</span></div><div class="node selected"><strong>Dataset factory</strong><span>Module + tfvars</span></div><div class="node control"><strong>Metadata SSOT</strong><span>Tier · schema · grants</span></div><div class="node selected"><strong>Authorized views</strong><span>Raw access denied by default</span></div></div><ul class="clean"><li>Encoded <strong>persona × service group × tier × region</strong> in one Terraform source of truth.</li><li>One time-limited PII grant entry generates a personal view, dataset authorization and decryption permissions.</li><li>Used keyless CI/CD and plan history to detect console drift and establish IaC-only changes.</li></ul></section><section><h2>Human review as a security boundary</h2><div class="contract" role="img" aria-label="DDL events register new metadata; an LLM proposes classifications, and human review gates authorized-view updates."><div class="contract-step"><strong>DDL event</strong><span>Audit logs and Pub/Sub detect new columns.</span></div><div class="contract-arrow"></div><div class="contract-step"><strong>Classification proposal</strong><span>An LLM proposes a tier; unconfirmed columns remain fail-closed.</span></div><div class="contract-arrow"></div><div class="contract-step"><strong>Human approval</strong><span>Review risk tiers, then regenerate authorized views automatically.</span></div></div><div class="two-col"><div class="rule"><strong>What was not automated</strong><p>Prohibited environment-wide auto-confirmation because it could approve sensitive columns in bulk. Human review remains a security boundary.</p></div><div class="rule"><strong>Reducing review bottlenecks</strong><p>Applied different SLAs and validated bulk-accept paths for low-risk tiers versus tiers likely to contain sensitive data.</p></div></div></section><section><h2>Adoption and results</h2><div class="outcome-line"><div class="outcome"><strong>Days estimated → ~1 hour</strong><span>New-region deployment, including troubleshooting</span></div><div class="outcome"><strong>7,300 + 2,100 columns</strong><span>Validated classification backlog cleared</span></div></div><ul class="clean"><li>All four data engineers use the repository to change infrastructure across three regions.</li><li>Another engineer independently extended the grant abstraction, reducing reliance on the original author.</li><li>Replaced reviewer alerts that generated 34 mentions in 48 hours with consolidated notifications.</li></ul></section><p class="ownership"><strong>Ownership</strong> · Created the governance IaC repository and designed its dataset factory, multiregion layout, CI/CD and tier / IAM model. Incorporated a teammate's fix with authorship preserved. Final access decisions remained in the formal approval workflow.</p></div><div class="page-footer"><span>04 · Governance and security</span><span>6 / 7</span></div></article>
+<article class="page"><div class="page-content">
+<div class="running-head"><strong>Heekyung Kim · Data Platform Engineer</strong><span>Customer Architecture · Modernization</span></div>
+<div class="case-title"><h1>5. Client on-premises-to-EMR on EKS PoC <span class="company">| Concentrix</span></h1><div class="case-meta"><span>08/2025 - 11/2025</span><span>EMR on EKS · IRSA · Spot · Terraform · Airflow</span><span>Independent implementation</span></div></div>
+<section><div class="lead"><div class="lead-label">Client need</div><p>Client-specific on-premises YARN / Spark environments required repeated console work and manual setup. The PoC tested whether growing client demand could be served through <strong>reusable infrastructure, least-privilege access and workload-based cost models</strong>, rather than a one-off migration.</p></div></section><section><h2>PoC target architecture</h2><div class="flow compact" role="img" aria-label="Airflow submits EMR on EKS jobs; IRSA grants least-privilege S3 access, while Spot nodes scale during batch windows."><div class="node "><strong>Airflow</strong><span>Batch orchestration</span></div><div class="node selected"><strong>EMR on EKS</strong><span>Spark job runtime</span></div><div class="node control"><strong>IRSA</strong><span>Pod-level least privilege</span></div><div class="node selected"><strong>S3 · Spot nodes</strong><span>Elastic data + compute</span></div></div></section><section><h2>Decisions based on the workload</h2><div class="two-col"><div><h3>Compute</h3><ul class="clean"><li>Chose EMR on EKS with Spot instead of an always-on cluster for batches concentrated into ~9 hours/day.</li><li>Configured Cluster Autoscaler to scale worker nodes during execution windows.</li><li>Separated the Airflow control-plane lifecycle from Spark workloads.</li></ul></div><div><h3>Security and reproducibility</h3><ul class="clean"><li>Connected Service Accounts, IAM roles and custom policies through IRSA for per-Pod least privilege.</li><li>Used private EKS, a bastion and GitLab Runner to minimize external exposure.</li><li>Defined ~70 AWS / Kubernetes resources in Terraform and verified destroy-and-reapply deployment.</li></ul></div></div></section><section><h2>Cost comparison under consistent assumptions</h2><table class="metric-table"><thead><tr><th>Scenario</th><th>Relative monthly cost</th><th>Assumptions</th></tr></thead><tbody><tr><td>Existing YARN cluster</td><td>100: baseline</td><td>Same workload; reservation-discount assumptions.</td></tr><tr class="selected"><td>EMR on EKS + Spot</td><td>~54: PoC model</td><td>Elastic compute during batch windows only.</td></tr></tbody></table><div class="callout"><strong>Limitations</strong> · The ~46% reduction is a PoC projection under matched workload and discount assumptions, not a before-and-after production bill. The project ended before production adoption because there was no authority to change existing client environments and no new deployment project.</div></section><section><h2>Architecture practices</h2><div class="three-col"><div class="rule"><strong>Requirements</strong><p>Translated batch windows, security boundaries and repeated setup costs into acceptance criteria before selecting technology.</p></div><div class="rule"><strong>Architecture</strong><p>Combined EMR on EKS, Spot, IRSA and Terraform into a reusable operating model.</p></div><div class="rule"><strong>Evidence boundaries</strong><p>Separated PoC feasibility from production adoption, and projected savings from realized savings.</p></div></div></section><section><h2>Related materials</h2><p><a href="https://gimgit.github.io/data-engineering-portfolio/en/resume.html"><strong>Resume · English</strong></a> · <a href="https://github.com/apache/iceberg/pull/17504">Apache Iceberg sort-order overlap statistics proposal</a></p></section></div><div class="page-footer"><span>05 · EMR on EKS modernization PoC</span><span>7 / 7</span></div></article>
+</main>
+
+
+</body>
+</html>

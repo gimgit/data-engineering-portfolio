@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heekyung Kim | Resume</title>
+  <meta name="description" content="Heekyung Kim, Data Platform Engineer. Experience in cloud architecture, data reliability and infrastructure automation.">
+  <link rel="canonical" href="https://gimgit.github.io/data-engineering-portfolio/en/resume.html">
+  <style>
+    :root {
+      --navy: #18345d;
+      --blue: #245ea9;
+      --orange: #e65a16;
+      --peach: #fff0e6;
+      --peach-line: #f4b88f;
+      --ink: #273443;
+      --ink-soft: #526172;
+      --muted: #7d8793;
+      --line: #dfe5ec;
+      --paper: #ffffff;
+      --canvas: #eef1f5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body {
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11.2px;
+      line-height: 1.55;
+      word-break: normal;
+    }
+    ::selection { background: #f8c9a9; color: #12294a; }
+    a { color: inherit; text-decoration-color: #9db3cf; text-underline-offset: 2px; }
+
+    .toolbar {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px;
+      border: 1px solid #d6dde6;
+      border-radius: 10px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 8px 24px rgba(27,47,73,.14);
+    }
+    .toolbar button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid #d6dde6;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .toolbar button:hover { border-color: #9db3cf; background: #f7f9fc; }
+    .toolbar button:focus-visible { outline: 3px solid rgba(230,90,22,.28); outline-offset: 2px; }
+    .toolbar button.primary { color: #fff; background: var(--navy); border-color: var(--navy); }
+    .toolbar svg { width: 14px; height: 14px; fill: currentColor; }
+    .toolbar .state { padding: 0 4px; color: var(--muted); font-weight: 750; }
+
+    .page {
+      position: relative;
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto;
+      padding: 13mm 14mm 12mm;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 8px 30px rgba(24,52,93,.14);
+    }
+    .page::before {
+      content: "";
+      position: absolute;
+      width: 112mm;
+      height: 44mm;
+      top: -31mm;
+      right: -18mm;
+      border: 1px solid var(--peach-line);
+      border-radius: 50%;
+      background: var(--peach);
+      transform: rotate(8deg);
+    }
+    .page::after {
+      content: "";
+      position: absolute;
+      width: 64mm;
+      height: 28mm;
+      left: -30mm;
+      bottom: -19mm;
+      border: 1px solid var(--peach-line);
+      border-radius: 50%;
+      transform: rotate(-12deg);
+    }
+    .page-content { position: relative; z-index: 1; }
+    body.editing .page-content { outline: 2px dashed var(--peach-line); outline-offset: 6px; }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+      padding-bottom: 11px;
+      border-bottom: 2px solid var(--navy);
+    }
+    .name { color: var(--blue); font-size: 29px; font-weight: 850; line-height: 1.05; letter-spacing: -.7px; }
+    .role { margin-top: 5px; color: var(--orange); font-size: 14px; font-weight: 800; letter-spacing: -.1px; }
+    .contacts { display: grid; gap: 4px; justify-items: end; color: var(--navy); font-size: 10.4px; font-weight: 700; }
+    .contacts a { display: inline-flex; align-items: center; gap: 5px; }
+    .contacts svg { width: 12px; height: 12px; fill: var(--orange); }
+
+    .profile {
+      display: grid;
+      grid-template-columns: 93px 1fr;
+      gap: 16px;
+      padding: 13px 0 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .profile-label { color: var(--navy); font-size: 12px; font-weight: 850; letter-spacing: .03em; }
+    .profile p { color: var(--ink-soft); font-size: 11.4px; line-height: 1.65; }
+    .profile strong { color: var(--ink); font-weight: 850; }
+
+    section { margin-top: 13px; }
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 7px;
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.25;
+      font-weight: 850;
+      letter-spacing: -.25px;
+    }
+    h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+    .timeline { display: grid; gap: 8px; }
+    .job {
+      display: grid;
+      grid-template-columns: 94px 1fr;
+      gap: 16px;
+      break-inside: avoid;
+    }
+    .job-date { color: var(--navy); font-weight: 800; font-variant-numeric: tabular-nums; }
+    .job-main { padding-left: 13px; border-left: 1px solid #afbed0; }
+    .job-title { color: var(--orange); font-size: 11.8px; font-weight: 850; }
+    .job ul { margin-top: 3px; list-style: none; }
+    .job li { position: relative; padding-left: 11px; color: var(--ink-soft); }
+    .job li::before { content: "-"; position: absolute; left: 0; color: #8da0b7; }
+
+    .project {
+      padding: 9px 0 8px;
+      border-top: 1px solid var(--line);
+      break-inside: avoid;
+    }
+    .project:first-of-type { padding-top: 0; border-top: 0; }
+    .project-head { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; margin-bottom: 5px; }
+    .project-title { color: var(--blue); font-size: 12.8px; font-weight: 850; letter-spacing: -.15px; }
+    .project-date { color: var(--muted); font-size: 10.2px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .fact-row { display: grid; grid-template-columns: 62px 1fr; gap: 9px; margin-top: 2px; }
+    .fact-label { color: var(--ink); font-weight: 850; }
+    .fact-copy { color: var(--ink-soft); }
+    .fact-copy strong { color: var(--ink); font-weight: 850; }
+    .boundary { color: #7b5a43; }
+    .stackline { color: #607086; font-size: 10.2px; }
+
+    .skills {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 22px;
+    }
+    .skill-group { break-inside: avoid; }
+    .skill-group h3 { color: var(--orange); font-size: 11px; font-weight: 850; margin-bottom: 2px; }
+    .skill-group p { color: var(--ink-soft); line-height: 1.55; }
+
+    .tail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding-top: 2px;
+    }
+    .tail-row { display: grid; grid-template-columns: 82px 1fr; gap: 8px; margin-top: 3px; color: var(--ink-soft); }
+    .tail-row strong { color: var(--navy); }
+    .page-footer {
+      position: absolute;
+      z-index: 2;
+      right: 14mm;
+      bottom: 6mm;
+      color: #9aa4af;
+      font-size: 9px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Mobile stacking must not apply to the 794px-wide A4 print viewport. */
+    @media screen and (max-width: 860px) {
+      body { background: #fff; }
+      .toolbar { position: sticky; top: 0; justify-content: center; border-radius: 0; }
+      .toolbar .state { display: none; }
+      .page { width: 100%; min-height: 0; margin: 0; padding: 28px 22px 44px; box-shadow: none; }
+      header { grid-template-columns: 1fr; align-items: start; }
+      .contacts { justify-items: start; }
+      .profile, .job, .fact-row { grid-template-columns: 1fr; gap: 3px; }
+      .job-main { margin-left: 3px; }
+      .skills, .tail { grid-template-columns: 1fr; }
+      .project-head { grid-template-columns: 1fr; gap: 1px; }
+      .page-footer { right: 22px; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 11.2px; }
+      .toolbar { display: none !important; }
+      .page {
+        width: 210mm;
+        height: auto;
+        min-height: 297mm;
+        margin: 0;
+        padding: 11mm 13mm 10mm;
+        box-shadow: none;
+        break-after: page;
+      }
+      .page:last-of-type { break-after: auto; }
+      body.editing .page-content { outline: none; }
+      /* Preserve DOM reading order when PDF text is extracted from grid layouts. */
+      .page-content > *, .job, .project, .skills > *, .tail > * { isolation: isolate; }
+      .job { grid-template-columns: 108px 1fr; }
+      .job-date { white-space: nowrap; }
+      .profile { padding: 10px 0; }
+      section { margin-top: 10px; }
+      .project { padding: 7px 0 6px; }
+      .page-footer { right: 13mm; bottom: 5mm; }
+      @page { size: A4; margin: 0; }
+    }
+  /* English edition: preserve the v2 frame with Latin-script spacing. */
+    .project-date { white-space: nowrap; }
+    .fact-row { grid-template-columns: 65px 1fr; }
+    .tail-row { grid-template-columns: 74px 1fr; }
+    .name { letter-spacing: -.6px; }
+    @media screen and (max-width: 860px) {
+      .fact-row { grid-template-columns: 1fr; }
+    }
+
+    /* Public document navigation is excluded from printed pages. */
+    .publication-nav {
+      position: sticky; top: 0; z-index: 40; display: flex;
+      flex-wrap: wrap; gap: 8px; align-items: center;
+      width: 210mm; max-width: 100%; margin: 0 auto; padding: 9px 14px;
+      background: #fff; border-bottom: 1px solid var(--line);
+      font-size: 12px; line-height: 1.4;
+    }
+    .publication-nav a { padding: 7px 10px; color: var(--navy); text-decoration: none; border-radius: 4px; }
+    .publication-nav a[aria-current="page"] { background: var(--peach); font-weight: 700; }
+    .publication-nav a:hover { background: #edf3fa; }
+    .publication-nav a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .publication-nav .download { margin-left: auto; border: 1px solid var(--line); }
+    @media print { .publication-nav { display: none !important; } }
+  </style>
+</head>
+<body>
+  <nav class="publication-nav" aria-label="Document navigation">
+    <a href="https://gimgit.github.io/data-engineering-portfolio/en/resume.html" aria-current="page">Resume</a>
+    <a href="https://gimgit.github.io/data-engineering-portfolio/en/">Portfolio</a>
+    <a class="download" href="https://gimgit.github.io/data-engineering-portfolio/en/resume.pdf" download="Heekyung_Kim_Resume_EN.pdf">Download PDF</a>
+  </nav>
+
+  <main id="resume" contenteditable="false">
+<article class="page"><div class="page-content">
+        <header>
+          <div>
+            <h1 class="name">Heekyung Kim</h1>
+            <div class="role">Data Platform Engineer</div>
+          </div>
+          <div class="contacts">
+            <a href="tel:+821096012589"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>+82 10-9601-2589</a>
+            <a href="mailto:hshsnamu@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>hshsnamu@gmail.com</a>
+            <a href="https://github.com/gimgit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49v-1.7c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.63.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9v2.81c0 .27.18.59.69.49A10.05 10.05 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/></svg>github.com/gimgit</a>
+            <a href="https://kr.linkedin.com/in/heekyung-kim-33b329242" aria-label="LinkedIn profile: Heekyung Kim"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52zM7.93 18.75H4.98V9.2h2.95v9.55zM6.45 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42zm12.3 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.99 0 3.58 1.97 3.58 4.53v5.24z"/></svg>linkedin.com/in/heekyung-kim-33b329242</a>
+          </div>
+        </header>
+<div class="profile"><div class="profile-label">PROFILE</div><p>Cloud and data platform engineer translating <strong>cost, scaling, security and operational constraints into measurable architecture decisions</strong>. Took an Apache Iceberg lakehouse on AWS S3, EKS, MSK, Glue and Athena into production, and investigated compute costs and scheduling bottlenecks in Spark on EKS with Spot and Karpenter. Turn operational knowledge into reusable infrastructure as code, guardrails and reliability checks.</p></div>
+<section><h2>Experience</h2><div class="timeline">
+<div class="job"><div class="job-date">11/2025 - Present</div><div class="job-main"><div class="job-title">Wrtn Technologies | Data Engineer</div><ul><li>Built the MongoDB → MSK / Kafka Connect → S3 / Iceberg CDC path and migrated approximately 200 tables to production.</li><li>Analyzed and improved Spot capacity, executor sizing and ephemeral-storage constraints in Spark on EKS / Karpenter.</li><li>Established the multiregion governance IaC repository and standardized Terraform / GitHub Actions operations.</li></ul></div></div>
+<div class="job"><div class="job-date">07/2024 - 11/2025</div><div class="job-main"><div class="job-title">Concentrix Korea | Data Platform Engineer</div><ul><li>Built a feasibility PoC for migrating a client's on-premises YARN / Spark platform to AWS using EMR on EKS and Terraform.</li><li>Redesigned an SEO pipeline as raw-first ELT, reducing API-credit costs from ~$1,800 to ~$200 per month (-89%).</li></ul></div></div>
+<div class="job"><div class="job-date">06/2022 - 07/2024</div><div class="job-main"><div class="job-title">Tridge | Data Engineer</div><ul><li>Owned the technical implementation of Korean and Chinese trade-data pipelines: ~20 daily crawlers, ELT and SQL marts.</li></ul></div></div>
+</div></section>
+<section><h2>Selected Projects</h2>
+<article class="project"><div class="project-head"><div class="project-title">Production migration to an AWS CDC / Iceberg lakehouse</div><div class="project-date">05/2026 - Present</div></div>
+<div class="fact-row"><div class="fact-label">Problem</div><div class="fact-copy">Reduce managed-warehouse CDC apply and query costs while preserving the change stream and consistency of ~200 live tables.</div></div>
+<div class="fact-row"><div class="fact-label">Decisions</div><div class="fact-copy">Rejected the initial cross-cloud design because of egress costs. Designed an <strong>in-region MSK → S3 / Iceberg / Glue → Spark on EKS maintenance → Athena</strong> architecture with snapshot-based watermarks.</div></div>
+<div class="fact-row"><div class="fact-label">Results</div><div class="fact-copy">Backfilled a representative dataset of <strong>~5 billion rows / 9TB</strong>; audited 196 tables with no missing live rows or unapplied deletes. Repartitioning by delete locality cut large-table <strong>MERGE cost per run by ~97%</strong>.</div></div>
+<div class="fact-row"><div class="fact-label">Operations</div><div class="fact-copy">Linked compaction, snapshot expiry and S3 noncurrent-version lifecycle policies, reducing the primary bucket from <strong>259TiB to 120TiB (-54%)</strong> and replacing recurring manual work with policies.</div></div>
+<div class="fact-row stackline"><div class="fact-label">Tools</div><div class="fact-copy">AWS S3, EKS, MSK, Glue, Athena · Iceberg · Spark · Kafka Connect · Airflow · Parquet</div></div></article>
+<article class="project"><div class="project-head"><div class="project-title">Spark on EKS / Karpenter compute and scheduling optimization</div><div class="project-date">08/2026 - Present</div></div>
+<div class="fact-row"><div class="fact-label">Problem</div><div class="fact-copy">After stopping a cost leak, the executor fleet still cost ~$830/day. Planned memory utilization was below 45% on 81% of large nodes; the long-job pool lacked Spot capacity.</div></div>
+<div class="fact-row"><div class="fact-label">Analysis</div><div class="fact-copy">Separated memory, CPU, disk and churn using a 41-application heap census and 775 event logs. Found that <strong>100Gi scratch requests on fixed 512Gi EBS volumes capped every node at four Pods</strong>, regardless of instance size.</div></div>
+<div class="fact-row"><div class="fact-label">Decisions</div><div class="fact-copy">Rejected four alternatives using measurements. Added an NVMe instance-store pool with EBS fallback, reduced executor memory from 32g to 24g, and broadened instance-family fallback for long jobs.</div></div>
+<div class="fact-row"><div class="fact-label">Results</div><div class="fact-copy">Verified <strong>3.2x allocatable ephemeral storage</strong> and removal of the four-Pod cap in production. Long-job launch failures fell from 69-82% to 26% / 2% in observed windows. <span class="boundary">Quantified ~$2.1K/month in sparse-node overpayment; realized savings remain under validation.</span></div></div>
+<div class="fact-row stackline"><div class="fact-label">Tools</div><div class="fact-copy">EKS · Karpenter · EC2 Spot · NVMe instance store · EBS · Spark · Terraform · Datadog</div></div></article>
+</section></div><div class="page-footer">Heekyung Kim · Resume · 1 / 2</div></article>
+<article class="page"><div class="page-content">
+<section style="margin-top:0"><h2>Selected Projects: Reliability, Customer Architecture and Enablement</h2>
+<article class="project"><div class="project-head"><div class="project-title">Kafka Connect CDC correctness and recovery</div><div class="project-date">11/2025 - Present</div></div>
+<div class="fact-row"><div class="fact-label">Problem</div><div class="fact-copy">Source stalls, zombie coordinators and merge-window defects silently lost data even when connectors were RUNNING and consumer lag was zero.</div></div>
+<div class="fact-row"><div class="fact-label">Decisions</div><div class="fact-copy">Defined end-to-end liveness through <strong>commit age, freshness and source-target parity</strong>. Applied snapshot watermarks, idempotent anti-join backfills and an Iceberg sink runtime upgrade.</div></div>
+<div class="fact-row"><div class="fact-label">Results</div><div class="fact-copy">Recovered quantified losses of up to <strong>~355K rows</strong>, verified through exact reconciliation. Validated CDC ingestion of <strong>12M+ consent documents</strong> for regulatory requirements with zero duplicates and zero dead-letter queue (DLQ) entries.</div></div>
+<div class="fact-row"><div class="fact-label">Practice</div><div class="fact-copy">Stopped treating lag=0 or RUNNING status as proof of health. Required natural-key and anti-join idempotency for at-least-once replay.</div></div>
+<div class="fact-row stackline"><div class="fact-label">Tools</div><div class="fact-copy">Amazon MSK · Strimzi Kafka Connect · MongoDB CDC · Iceberg · BigQuery · Airflow · Datadog</div></div></article>
+<article class="project"><div class="project-head"><div class="project-title">Event-ingestion loss protection</div><div class="project-date">03/2026 - 07/2026</div></div>
+<div class="fact-row"><div class="fact-label">Problem</div><div class="fact-copy">Broker or transport failures could lose producer events; the legacy ingestion endpoint had no retry protection.</div></div>
+<div class="fact-row"><div class="fact-label">Decisions</div><div class="fact-copy">Implemented failure classification, an S3 write-ahead log and Step Functions / SQS replay from the CTO's fallback PRD. Replaced managed transport with synchronous S3 micro-batches after finding a cross-account Pod Identity defect.</div></div>
+<div class="fact-row"><div class="fact-label">Results</div><div class="fact-copy">Delivered across four environments through 18 PRs, 95 tests and end-to-end validation. Verified <strong>one real production auto-recovery with zero loss and zero duplicates</strong>.</div></div>
+<div class="fact-row stackline"><div class="fact-label">Tools</div><div class="fact-copy">S3 · Step Functions · SQS · EKS Pod Identity · Python · Kubernetes · Terraform · CI/CD</div></div></article>
+<article class="project"><div class="project-head"><div class="project-title">Client on-premises-to-AWS modernization PoC</div><div class="project-date">08/2025 - 11/2025</div></div>
+<div class="fact-row"><div class="fact-label">Problem</div><div class="fact-copy">Test whether repeated manual setup of client YARN / Spark environments could become reusable cloud infrastructure with least-privilege access.</div></div>
+<div class="fact-row"><div class="fact-label">Decisions</div><div class="fact-copy">Implemented ~70 AWS / Kubernetes resources end to end: <strong>EMR on EKS with Spot</strong> scaling during batch windows, per-Pod IRSA, private EKS and Terraform.</div></div>
+<div class="fact-row"><div class="fact-label">Results</div><div class="fact-copy">Verified reproducibility with destroy-and-reapply deployment and modeled <strong>~46% potential savings</strong>. <span class="boundary">A PoC projection, not measured billing savings; the project ended before production adoption.</span></div></div>
+<div class="fact-row stackline"><div class="fact-label">Tools</div><div class="fact-copy">EMR on EKS · S3 · IAM / IRSA · EC2 Spot · Kubernetes · Terraform · Airflow · Helm</div></div></article>
+<article class="project"><div class="project-head"><div class="project-title">Multiregion governance IaC and self-service</div><div class="project-date">01/2026 - Present</div></div>
+<div class="fact-row"><div class="fact-label">Problem</div><div class="fact-copy">IAM, views, column classification and sensitive-data access were fragmented across 13 projects, ~314 datasets and ~100 users.</div></div>
+<div class="fact-row"><div class="fact-label">Decisions</div><div class="fact-copy">Created the governance IaC repository, bringing a dataset factory, multiregion layout, keyless CI/CD and tier / IAM model into <strong>one Terraform source of truth</strong>.</div></div>
+<div class="fact-row"><div class="fact-label">Results</div><div class="fact-copy">Deployed a new region in ~1 hour including troubleshooting, versus several days estimated for manual setup. All four data engineers use the repository; another engineer independently extended its grant pattern.</div></div>
+<div class="fact-row stackline"><div class="fact-label">Tools</div><div class="fact-copy">Terraform · GitHub Actions · BigQuery · IAM · Pub/Sub · Python · GitOps</div></div></article>
+</section>
+<section><h2>Technical Skills</h2><div class="skills">
+<div class="skill-group"><h3>AWS &amp; Cloud Platform</h3><p>S3, EKS, MSK, Glue, Athena, EMR on EKS, IAM / IRSA, Step Functions, SQS, EC2 Spot, EBS, Terraform, Kubernetes, Helm, ArgoCD</p></div>
+<div class="skill-group"><h3>Data &amp; Reliability</h3><p>Apache Iceberg, Apache Spark, Kafka Connect, Airflow, BigQuery, Snowflake, Parquet, dbt, Datadog, Karpenter, CDC, Python, SQL</p></div>
+</div></section>
+<section><h2>Education and Additional Information</h2><div class="tail">
+<div><div class="tail-row"><strong>Education</strong><span>Busan University of Foreign Studies<br>Paideia Creative Talent Studies<br>02/2012 - 02/2019 · GPA 3.76/4.5</span></div>
+<div class="tail-row"><strong>English</strong><span>TOEIC 930 · 02/2021</span></div></div>
+<div><div class="tail-row"><strong>Open source</strong><span><a href="https://github.com/apache/iceberg/pull/17504">Apache Iceberg PR #17504</a><br>Proposal: sort-order overlap statistics</span></div>
+<div class="tail-row"><strong>Case studies</strong><span><a href="https://gimgit.github.io/data-engineering-portfolio/en/">Portfolio · English</a></span></div></div>
+</div></section>
+</div><div class="page-footer">Heekyung Kim · Resume · 2 / 2</div></article>
+</main>
+
+
+</body>
+</html>
